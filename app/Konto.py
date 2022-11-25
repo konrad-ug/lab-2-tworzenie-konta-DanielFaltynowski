@@ -47,7 +47,7 @@ class KontoPrywatne(Konto):
     def zaciagnij_kredyt(self, kwota):
         if len(self.historia) < 5:
             return False
-        test1 = self.historia[-3], self.historia[-2], self.historia[-1] > 0
+        test1 = self.historia[-3] > 0 and self.historia[-2] > 0 and self.historia[-1] > 0
         test2 = self.historia[-5] + self.historia[-4] + self.historia[-3] + self.historia[-2] + self.historia[-1] > kwota
         if test1 and test2:
             self.saldo += kwota

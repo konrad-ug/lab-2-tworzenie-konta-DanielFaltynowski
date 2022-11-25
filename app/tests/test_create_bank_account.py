@@ -1,5 +1,7 @@
 import unittest
 
+from parameterized import parameterized
+
 from ..Konto import *
 
 class TestCreateBankAccount(unittest.TestCase):
@@ -353,3 +355,29 @@ class test_zaciaganie_kredytu(unittest.TestCase):
         konto.wplac(10)
         konto.wplac(10)
         self.assertEqual(konto.zaciagnij_kredyt(1000), False, "Nie spełniono warunków do zaciągnięcia kredytu")
+
+
+class test_kredyt_parameterized(unittest.TestCase):
+    imie = "Daniel"
+    nazwisko = "Faltynowski"
+    pesel = "0226174567"
+
+    @parameterized.expand([
+        ([], 3000, False),
+        ([100, 300, 1880, 1750, 1120], 100, True),
+        ([1000, -200, 400, 1000, 3000, -250, 120], 100, False),
+        ([100, 300, 5000, 2000, -100], 100, False),
+        ([3000, -100, 300, 1000, 3000], 200, True),
+        ([1000, 2000, 3000], 1000, False),
+        ([4000, -1000, 3000, 2000, 1000], 100000, False),
+        ([4000, -1000, 3000, 2000, 1000], 1000, True)
+    ])
+    def test_zaciaganie_kredytu_parameterized(self, historia, kwota, przyznanie):
+        konto = KontoPrywatne(self.imie, self.nazwisko, self.pesel)
+        konto.historia = historia
+        zaciagnij = konto.zaciagnij_kredyt(kwota)
+        self.assertEqual(zaciagnij, przyznanie, "Nie spełniono warunków do zaciągnięcia kredytu")
+
+
+
+
