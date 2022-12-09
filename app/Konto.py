@@ -70,4 +70,16 @@ class KontoFirmowe(Konto):
             self.historia.append(-5)
 
 
+    def zaciagnij_kredyt(self, kwota):
+        test1 = sum(self.historia) >= 2 * kwota
+        test2 = -1775 in self.historia
+        if test1 and test2:
+            self.saldo += kwota
+            return True
+        else:
+            return False
+
+
+
+
 
